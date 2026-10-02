@@ -1,14 +1,17 @@
+from collections.abc import Hashable, Iterable
 from dataclasses import dataclass
 from functools import cached_property
 
 import networkx
 import scipy
-from typing import Iterable, Hashable
 
 
 @dataclass(frozen=True)
 class Graph:
-    """Undirected graph representation using an adjacency matrix and vertex labels. Graphs are required to have symmetric adjacency matrices."""
+    """
+    Undirected graph representation using an adjacency matrix and vertex labels. 
+    Graphs are required to have symmetric adjacency matrices.
+    """
 
     adjacency: scipy.sparse.csr_matrix
     labels: tuple[Hashable, ...]
@@ -50,7 +53,9 @@ class Graph:
         return cls(adjacency=adjacency, labels=tuple(range(adjacency.shape[0])))
 
     @classmethod
-    def from_edge_list(cls, n: int, edge_list: "Iterable[tuple[int, int, float]]") -> "Graph":
+    def from_edge_list(
+        cls, n: int, edge_list: "Iterable[tuple[int, int, float]]"
+    ) -> "Graph":
         rows, cols, vals = zip(*edge_list) if edge_list else ([], [], [])
         adjacency = scipy.sparse.csr_matrix((vals, (rows, cols)), shape=(n, n))
         adjacency = adjacency + adjacency.T
