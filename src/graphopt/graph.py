@@ -83,3 +83,20 @@ class Graph:
     @property
     def min_weighted_degree(self) -> float:
         return min(self.weighted_degrees)
+    
+    @property
+    def degree_matrix(self) -> "scipy.sparse.csr_matrix":
+        return scipy.sparse.diags(self.degrees).tocsr()
+    
+    @property
+    def weighted_degree_matrix(self) -> "scipy.sparse.csr_matrix":
+        return scipy.sparse.diags(self.weighted_degrees).tocsr()
+    
+    @property
+    def laplacian_matrix(self) -> "scipy.sparse.csr_matrix":
+        return self.degree_matrix - self.adjacency.tocsr()
+
+    @property
+    def weighted_laplacian_matrix(self) -> "scipy.sparse.csr_matrix":
+        return self.weighted_degree_matrix - self.adjacency.tocsr()
+    
