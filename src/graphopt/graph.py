@@ -1,6 +1,7 @@
 from collections.abc import Hashable, Iterable
 from dataclasses import dataclass
 from functools import cached_property
+from typing import Any
 
 import networkx
 import scipy
@@ -16,7 +17,7 @@ class Graph:
     adjacency: scipy.sparse.csr_matrix
     labels: tuple[Hashable, ...]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if len(self.labels) != self.adjacency.shape[0]:
             raise ValueError("Number of labels must match number of vertices.")
         if not all(isinstance(label, Hashable) for label in self.labels):
@@ -25,7 +26,7 @@ class Graph:
             raise ValueError("Adjacency matrix must be square.")
         if not scipy.sparse.isspmatrix_csr(self.adjacency):
             raise ValueError("Adjacency matrix must be a CSR matrix.")
-        if self.adjacency.nnz != 0 and not (self.adjacency != 0).nnz:
+        if self.adjacency.nnz != 0 and self.adjacency.count_nonzero() == 0:
             raise ValueError("Adjacency matrix contains invalid entries.")
         if len(set(self.labels)) != len(self.labels):
             raise ValueError("All labels must be unique.")
@@ -43,8 +44,8 @@ class Graph:
         return self.adjacency.nnz // 2
 
     @classmethod
-    def from_networkx(cls, g: "networkx.Graph", weight: str = "weight") -> "Graph":
-        adjacency = networkx.adjacency_matrix(g, weight=weight).tocsr()
+    def from_networkx(cls, g: "networkx.Graph[Any]", weight: str = "weight") -> "Graph":
+        adjacency = scipy.sparse.csr_matrix(networkx.adjacency_matrix(g, weight=weight))
         nodes = tuple(g.nodes)
         return cls(adjacency=adjacency, labels=nodes)
 
