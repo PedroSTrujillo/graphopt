@@ -62,7 +62,7 @@ class Graph:
 
     @cached_property
     def degrees(self) -> tuple[int, ...]:
-        return tuple(self.adjacency.getnnz(axis=1))
+        return tuple(int(d) for d in self.adjacency.getnnz(axis=1))
 
     @cached_property
     def weighted_degrees(self) -> tuple[float, ...]:
