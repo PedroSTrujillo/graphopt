@@ -1,7 +1,7 @@
 [project]
 name = "graphopt"
 version = "0.1.0"
-description = "Add your description here"
+description = "A unified Python interface for graph combinatorial optimization (Max-Cut, coloring, clique) that combines exact, SAT, heuristic, and SDP methods and returns verifiable optimality certificates."
 readme = "README.md"
 authors = [
     { name = "Pedro Pablo S. Trujillo", email = "123520249+PedroSTrujillo@users.noreply.github.com" }
