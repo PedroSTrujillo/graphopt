@@ -1,0 +1,40 @@
+[project]
+name = "graphopt"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Pedro Pablo S. Trujillo", email = "123520249+PedroSTrujillo@users.noreply.github.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "networkx>=3.2.1",
+    "numpy>=2.0.2",
+    "scipy>=1.13.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.22,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.141.1",
+    "mypy>=1.19.1",
+    "pytest>=8.4.2",
+    "ruff>=0.16.10",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "NPY"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
